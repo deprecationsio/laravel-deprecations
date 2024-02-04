@@ -1,0 +1,95 @@
+name: deprecationsio/laravel-deprecations
+
+on:
+    pull_request: ~
+    push:
+        branches:
+            - main
+
+jobs:
+    phpunit:
+        name: phpunit (PHP ${{ matrix.php-version }})
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                php-version:
+                    - '7.3'
+                    - '7.4'
+                    - '8.0'
+                    - '8.1'
+                    - '8.2'
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            #
+            # PHP and Composer install
+            #
+            - name: Install PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  coverage: none
+                  php-version: ${{ matrix.php-version }}
+                  tools: composer
+
+            #
+            # PHPUnit install
+            #
+            - name: Install phpunit 9
+              run: mkdir tools && cd tools && composer require --no-interaction "phpunit/phpunit=9.*"
+
+            #
+            # Laravel tests
+            #
+
+            # Laravel 8
+            - name: Tests | Laravel 8.0
+              run: ./.github/bin/install-laravel.sh 8.0 && php tools/vendor/bin/phpunit
+            - name: Tests | Laravel 8.1
+              run: ./.github/bin/install-laravel.sh 8.1 && php tools/vendor/bin/phpunit
+            - name: Tests | Laravel 8.2
+              run: ./.github/bin/install-laravel.sh 8.2 && php tools/vendor/bin/phpunit
+            - name: Tests | Laravel 8.3
+              run: ./.github/bin/install-laravel.sh 8.3 && php tools/vendor/bin/phpunit
+            - name: Tests | Laravel 8.4
+              run: ./.github/bin/install-laravel.sh 8.4 && php tools/vendor/bin/phpunit
+            - name: Tests | Laravel 8.5
+              run: ./.github/bin/install-laravel.sh 8.5 && php tools/vendor/bin/phpunit
+            - name: Tests | Laravel 8.6
+              run: ./.github/bin/install-laravel.sh 8.6 && php tools/vendor/bin/phpunit
+
+            # Laravel 9
+            - name: Tests | Laravel 9.0
+              if: matrix.php-version >= '8.0'
+              run: ./.github/bin/install-laravel.sh 9.0 && php tools/vendor/bin/phpunit
+            - name: Tests | Laravel 9.1
+              if: matrix.php-version >= '8.0'
+              run: ./.github/bin/install-laravel.sh 9.1 && php tools/vendor/bin/phpunit
+            - name: Tests | Laravel 9.2
+              if: matrix.php-version >= '8.0'
+              run: ./.github/bin/install-laravel.sh 9.2 && php tools/vendor/bin/phpunit
+            - name: Tests | Laravel 9.3
+              if: matrix.php-version >= '8.0'
+              run: ./.github/bin/install-laravel.sh 9.3 && php tools/vendor/bin/phpunit
+            - name: Tests | Laravel 9.4
+              if: matrix.php-version >= '8.0'
+              run: ./.github/bin/install-laravel.sh 9.4 && php tools/vendor/bin/phpunit
+            - name: Tests | Laravel 9.5
+              if: matrix.php-version >= '8.0'
+              run: ./.github/bin/install-laravel.sh 9.5 && php tools/vendor/bin/phpunit
+
+            # Laravel 10
+            - name: Tests | Laravel 10.0
+              if: matrix.php-version >= '8.1'
+              run: ./.github/bin/install-laravel.sh 10.0 && php tools/vendor/bin/phpunit
+            - name: Tests | Laravel 10.1
+              if: matrix.php-version >= '8.1'
+              run: ./.github/bin/install-laravel.sh 10.1 && php tools/vendor/bin/phpunit
+            - name: Tests | Laravel 10.2
+              if: matrix.php-version >= '8.1'
+              run: ./.github/bin/install-laravel.sh 10.2 && php tools/vendor/bin/phpunit
+            - name: Tests | Laravel 10.3
+              if: matrix.php-version >= '8.1'
+              run: ./.github/bin/install-laravel.sh 10.3 && php tools/vendor/bin/phpunit

@@ -1,0 +1,39 @@
+{
+  "name": "deprecationsio/laravel-deprecations",
+  "description": "Laravel package integrating deprecations.io with Laravel applications",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Titouan Galopin",
+      "email": "titouan@deprecations.io"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Deprecationsio\\Laravel\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\Deprecationsio\\Laravel\\": "tests"
+    }
+  },
+  "require": {
+    "php": ">=5.3",
+    "deprecationsio/monolog-handler": "^0.0.9"
+  },
+  "require-dev": {
+    "laravel/framework": "^10.3"
+  },
+  "scripts": {
+    "rmt-install": "echo 'Installing liip/rmt in /tools' && mkdir -p tools/rmt && composer require --working-dir=tools/rmt liip/rmt:1.7.4",
+    "release": "tools/rmt/vendor/bin/RMT release"
+  },
+  "config": {
+    "preferred-install": {
+      "*": "dist"
+    },
+    "sort-packages": true
+  }
+}
